@@ -101,7 +101,7 @@ export function PosLayout({
   const items = role === "admin" ? NAV_ADMIN : NAV_COMMON;
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-dvh overflow-hidden">
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-30 bg-slate-950/60 backdrop-blur-sm lg:hidden"
@@ -188,7 +188,7 @@ export function PosLayout({
             {(userName || "U").charAt(0).toUpperCase()}
           </div>
         </header>
-        <main className="flex-1 overflow-y-auto">{children}</main>
+        <main className="min-h-0 flex-1 overflow-y-auto">{children}</main>
       </div>
     </div>
   );

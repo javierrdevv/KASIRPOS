@@ -322,9 +322,9 @@ export default function PosPage() {
     payMethod === "cash" ? Math.max(Number(cashReceived || 0) - total, 0) : 0;
 
   return (
-    <div className="flex h-full overflow-hidden">
+    <div className="flex h-full min-h-0 overflow-hidden">
       {/* left: products */}
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
         <div className="shrink-0 border-b border-slate-200 bg-white px-5 py-3">
           <div className="flex items-center gap-3">
             <div className="relative flex-1">
@@ -358,7 +358,7 @@ export default function PosPage() {
           </div>
         </div>
 
-        <div className="grid flex-1 content-start grid-cols-2 gap-3 overflow-y-auto p-3 sm:grid-cols-3 sm:p-5 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid min-h-0 flex-1 content-start grid-cols-2 gap-3 overflow-y-auto p-3 sm:grid-cols-3 sm:p-5 lg:grid-cols-4 xl:grid-cols-5">
           {filtered.map((p) => (
             <ProductCard key={p.id} product={p} onAdd={() => addToCart(p)} />
           ))}
@@ -427,7 +427,7 @@ export default function PosPage() {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-4 py-3">
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
           {cart.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center gap-2 text-center text-sm text-slate-400">
               <ShoppingCart className="h-10 w-10 text-slate-200" />
