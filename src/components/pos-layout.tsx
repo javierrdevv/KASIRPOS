@@ -17,6 +17,7 @@ import {
   LogOut,
   Receipt,
   ShieldCheck,
+  Menu,
 } from "lucide-react";
 
 type Role = "admin" | "kasir";
@@ -45,16 +46,19 @@ function NavLink({
   href,
   label,
   icon: Icon,
+  onClick,
 }: {
   href: string;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
+  onClick?: () => void;
 }) {
   const pathname = usePathname();
   const active = pathname === href || (href !== "/" && pathname.startsWith(href));
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={cn(
         "group relative flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-150",
         active
@@ -85,6 +89,7 @@ export function PosLayout({
 }) {
   const router = useRouter();
   const [userName] = useState(name);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   async function logout() {
     const supabase = createClient();
@@ -96,8 +101,19 @@ export function PosLayout({
   const items = role === "admin" ? NAV_ADMIN : NAV_COMMON;
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-slate-950">
+    <div className="flex h-screen overflow-hidden">
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-slate-950/60 backdrop-blur-sm lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-slate-950 transition-transform duration-200 lg:translate-x-0",
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
         <div className="flex items-center gap-3 px-5 pb-5 pt-6">
           <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-emerald-700/40 bg-slate-800 text-emerald-300">
             <Store className="h-5 w-5" />
@@ -116,7 +132,13 @@ export function PosLayout({
 
         <nav className="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
           {items.map((item) => (
-            <NavLink key={item.href} href={item.href} label={item.label} icon={item.icon} />
+            <NavLink
+              key={item.href}
+              href={item.href}
+              label={item.label}
+              icon={item.icon}
+              onClick={() => setSidebarOpen(false)}
+            />
           ))}
         </nav>
 
@@ -144,7 +166,30 @@ export function PosLayout({
           </button>
         </div>
       </aside>
-      <main className="ml-64 flex-1">{children}</main>
+
+      <div className="flex min-w-0 flex-1 flex-col lg:ml-64">
+        <header className="flex h-14 shrink-0 items-center gap-3 border-b border-slate-200 bg-white px-4 lg:hidden">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-100"
+            aria-label="Buka menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+          <div className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-emerald-700/40 bg-slate-900 text-emerald-300">
+              <Store className="h-4 w-4" />
+            </div>
+            <span className="font-display text-base font-semibold tracking-tight text-slate-800">
+              Kasir POS
+            </span>
+          </div>
+          <div className="ml-auto flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600/90 text-xs font-bold text-white">
+            {(userName || "U").charAt(0).toUpperCase()}
+          </div>
+        </header>
+        <main className="flex-1 overflow-y-auto">{children}</main>
+      </div>
     </div>
   );
 }

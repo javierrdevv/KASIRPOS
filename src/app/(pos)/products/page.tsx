@@ -89,8 +89,8 @@ export default function ProductsPage() {
 
   return (
     <AdminGate>
-    <div className="p-6">
-      <div className="flex items-center justify-between">
+      <div className="p-4 sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold">Produk</h1>
           <p className="mt-1 text-sm text-slate-500">
@@ -114,7 +114,7 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-slate-200 bg-white">
+      <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white">
         {loading ? (
           <div className="p-10 text-center text-sm text-slate-400">Memuat…</div>
         ) : filtered.length === 0 ? (

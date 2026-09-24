@@ -50,8 +50,8 @@ export default function SuppliersPage() {
 
   return (
     <AdminGate>
-    <div className="p-6">
-      <div className="flex items-center justify-between">
+      <div className="p-4 sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold">Supplier</h1>
           <p className="mt-1 text-sm text-slate-500">{suppliers.length} supplier</p>

@@ -144,7 +144,7 @@ export default function ReportsPage() {
 
   return (
     <AdminGate>
-    <div className="p-6">
+      <div className="p-4 sm:p-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold">Laporan Penjualan</h1>

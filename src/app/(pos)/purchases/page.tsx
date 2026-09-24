@@ -46,8 +46,8 @@ export default function PurchasesPage() {
 
   return (
     <AdminGate>
-    <div className="p-6">
-      <div className="flex items-center justify-between">
+      <div className="p-4 sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold">Pembelian</h1>
           <p className="mt-1 text-sm text-slate-500">Catatan pembelian dari supplier</p>
@@ -208,7 +208,7 @@ function PurchaseForm({ onClose, onDone }: { onClose: () => void; onDone: () => 
           <Textarea value={note} onChange={(e) => setNote(e.target.value)} rows={1} />
         </Field>
 
-        <div className="overflow-hidden rounded-lg border border-slate-100">
+        <div className="overflow-x-auto rounded-lg border border-slate-100">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-100 bg-slate-50 text-left text-xs uppercase text-slate-400">

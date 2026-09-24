@@ -81,7 +81,7 @@ export default function HistoryPage() {
   });
 
   return (
-    <div className="p-6">
+      <div className="p-4 sm:p-6">
       <h1 className="text-xl font-bold">Riwayat Transaksi</h1>
       <p className="mt-1 text-sm text-slate-500">
         {orders.filter((o) => o.status === "paid").length} transaksi berhasil
@@ -172,9 +172,10 @@ export default function HistoryPage() {
                 <p className="text-xs text-slate-500">Status</p>
                 <StatusBadge status={detail.status} />
               </div>
-            </div>
+        </div>
 
-            <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-100 text-left text-xs uppercase text-slate-400">
                   <th className="py-2">Item</th>
@@ -195,9 +196,10 @@ export default function HistoryPage() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+        </table>
+        </div>
 
-            <div className="flex flex-col items-end gap-1 text-sm">
+        <div className="flex flex-col items-end gap-1 text-sm">
               <span>Subtotal: <b>{formatIDR(detail.subtotal)}</b></span>
               {detail.discount > 0 && (
                 <span>Diskon: <b>-{formatIDR(detail.discount)}</b></span>

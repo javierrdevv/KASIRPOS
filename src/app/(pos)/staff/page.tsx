@@ -182,7 +182,7 @@ export default function StaffPage() {
 
   return (
     <AdminGate>
-    <div className="p-6">
+      <div className="p-4 sm:p-6">
       <h1 className="text-xl font-bold">Staf & Pengguna</h1>
       <p className="mt-1 text-sm text-slate-500">Akun kasir dan admin</p>
 
@@ -246,7 +246,7 @@ export default function StaffPage() {
                     <p className="truncate text-xs text-slate-400">{p.email}</p>
                   </div>
               <div className="flex items-center gap-2">
-                <Badge className={p.role === "admin" ? "bg-indigo-100 text-indigo-700" : "bg-slate-100 text-slate-600"}>
+                <Badge className={p.role === "admin" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"}>
                   {p.role === "admin" ? "Admin" : "Kasir"}
                 </Badge>
                 {!p.active && (

@@ -57,6 +57,7 @@ export default function PosPage() {
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [showCustomerModal, setShowCustomerModal] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   const [showPayModal, setShowPayModal] = useState(false);
   const [showReceiptModal, setShowReceiptModal] = useState(false);
   const [payMethod, setPayMethod] = useState<PaymentMethod>("cash");
@@ -212,6 +213,7 @@ export default function PosPage() {
       const { data } = await supabase.from("customers").select("*").limit(20);
       setCustomers(data ?? []);
     } catch {}
+    setShowCart(false);
     setShowPayModal(true);
   }
 
@@ -269,8 +271,9 @@ export default function PosPage() {
         paidCash: payMethod === "cash" ? Number(cashReceived || 0) : 0,
         paidAt: new Date().toISOString(),
       });
-      setShowPayModal(false);
-      setShowReceiptModal(true);
+    setShowPayModal(false);
+    setShowCart(false);
+    setShowReceiptModal(true);
       if (settings) {
         const receipt = renderReceipt(
           {
@@ -319,10 +322,10 @@ export default function PosPage() {
     payMethod === "cash" ? Math.max(Number(cashReceived || 0) - total, 0) : 0;
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-full overflow-hidden">
       {/* left: products */}
       <div className="flex min-w-0 flex-1 flex-col">
-        <div className="border-b border-slate-200 bg-white px-5 py-3">
+        <div className="shrink-0 border-b border-slate-200 bg-white px-5 py-3">
           <div className="flex items-center gap-3">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -355,7 +358,7 @@ export default function PosPage() {
           </div>
         </div>
 
-        <div className="grid flex-1 content-start grid-cols-2 gap-3 overflow-y-auto p-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid flex-1 content-start grid-cols-2 gap-3 overflow-y-auto p-3 sm:grid-cols-3 sm:p-5 lg:grid-cols-4 xl:grid-cols-5">
           {filtered.map((p) => (
             <ProductCard key={p.id} product={p} onAdd={() => addToCart(p)} />
           ))}
@@ -365,10 +368,38 @@ export default function PosPage() {
             </div>
           )}
         </div>
+
+        <div className="flex shrink-0 items-center gap-3 border-t border-slate-200 bg-white px-4 py-3 lg:hidden">
+          <div className="min-w-0 flex-1">
+            <p className="text-xs text-slate-400">Total</p>
+            <p className="truncate text-lg font-bold text-emerald-600">
+              {formatIDR(total)}
+            </p>
+          </div>
+          <Button
+            variant="primary"
+            onClick={() => setShowCart(true)}
+            disabled={cart.length === 0}
+          >
+            <ShoppingCart className="h-4 w-4" />
+            Keranjang ({itemCount})
+          </Button>
+        </div>
       </div>
 
       {/* right: cart */}
-      <div className="flex w-full shrink-0 max-w-sm flex-col border-l border-slate-200 bg-white">
+      {showCart && (
+        <div
+          className="fixed inset-0 z-30 bg-slate-950/50 backdrop-blur-sm lg:hidden"
+          onClick={() => setShowCart(false)}
+        />
+      )}
+      <div
+        className={cn(
+          "fixed inset-y-0 right-0 z-40 flex w-full max-w-sm shrink-0 flex-col border-l border-slate-200 bg-white transition-transform duration-200 lg:static lg:z-auto lg:translate-x-0",
+          showCart ? "translate-x-0" : "translate-x-full"
+        )}
+      >
         <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
           <div className="flex items-center gap-2">
             <ShoppingCart className="h-5 w-5 text-slate-500" />
@@ -377,11 +408,23 @@ export default function PosPage() {
               <span className="text-slate-400">({itemCount})</span>
             </span>
           </div>
-          {cart.length > 0 && (
-            <button onClick={clearCart} className="text-xs text-red-500 hover:text-red-600">
-              Kosongkan
+          <div className="flex items-center gap-3">
+            {cart.length > 0 && (
+              <button
+                onClick={clearCart}
+                className="text-xs text-red-500 hover:text-red-600"
+              >
+                Kosongkan
+              </button>
+            )}
+            <button
+              onClick={() => setShowCart(false)}
+              className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 lg:hidden"
+              aria-label="Tutup keranjang"
+            >
+              <X className="h-5 w-5" />
             </button>
-          )}
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 py-3">

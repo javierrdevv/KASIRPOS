@@ -76,7 +76,7 @@ export default function DashboardPage() {
   }, [supabase]);
 
   return (
-    <div className="p-6">
+      <div className="p-4 sm:p-6">
       <h1 className="text-xl font-bold">Dashboard</h1>
       <p className="mt-1 text-sm text-slate-500">Rekap ringkas hari ini</p>
 
@@ -109,6 +109,7 @@ export default function DashboardPage() {
 
       <div className="mt-6 rounded-xl border border-slate-200 bg-white p-5">
         <h2 className="mb-3 text-sm font-semibold">Transaksi Terakhir</h2>
+        <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-slate-100 text-left text-xs uppercase text-slate-400">
@@ -143,6 +144,7 @@ export default function DashboardPage() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
