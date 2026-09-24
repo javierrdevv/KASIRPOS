@@ -29,3 +29,5 @@ $$;
 
 revoke all on function public.delete_employee(uuid) from public;
 grant execute on function public.delete_employee(uuid) to authenticated;
+
+notify pgrst, 'reload schema';

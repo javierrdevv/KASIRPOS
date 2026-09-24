@@ -8,7 +8,7 @@ create or replace function public.create_employee(p_email text, p_password text,
 returns uuid
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 declare
   _uid uuid;
@@ -25,17 +25,18 @@ begin
     email_change_token_new, email_change, raw_app_meta_data,
     raw_user_meta_data, created_at, updated_at, last_sign_in_at
   ) values (
-    '00000000-0000-0000-0000-000000000000'::uuid,
-    _uid, 'authenticated', 'authenticated', p_email,
-    crypt(p_password, gen_salt('bf')),
+ '00000000-0000-0000-0000-000000000000'::uuid,
+ _uid, 'authenticated', 'authenticated', p_email,
+ extensions.crypt(p_password, extensions.gen_salt('bf')),
     now(), '', '', '', '',
     '{"provider":"email","providers":["email"]}'::jsonb,
     jsonb_build_object('name', p_name),
     now(), now(), now()
   );
 
-  insert into public.profiles (id, email, name, role)
-  values (_uid, p_email, p_name, 'kasir');
+ insert into public.profiles (id, email, name, role)
+ values (_uid, p_email, p_name, 'kasir')
+ on conflict (id) do nothing;
 
   return _uid;
 end;
