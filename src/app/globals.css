@@ -1,26 +1,109 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf6f0;
+  --foreground: #2b2320;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, "Times New Roman", serif;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* slate → warm cream/espresso neutrals */
+  --color-slate-50: #faf6f0;
+  --color-slate-100: #f4ede2;
+  --color-slate-200: #e9dbc9;
+  --color-slate-300: #d9c4aa;
+  --color-slate-400: #c2a485;
+  --color-slate-500: #a98560;
+  --color-slate-600: #8f6a47;
+  --color-slate-700: #73543a;
+  --color-slate-800: #57422f;
+  --color-slate-900: #3b2d22;
+  --color-slate-950: #221a13;
+
+  /* warm alias untuk teks dekoratif */
+  --color-warm-25: #fdfbf7;
+  --color-warm-50: #faf6f0;
+  --color-warm-100: #f4ede2;
+  --color-warm-200: #e9dbc9;
+  --color-warm-300: #d9c4aa;
+  --color-warm-400: #c2a485;
+  --color-warm-500: #a98560;
+  --color-warm-600: #8f6a47;
+  --color-warm-700: #73543a;
+  --color-warm-800: #57422f;
+  --color-warm-900: #3b2d22;
+  --color-warm-950: #221a13;
+
+  /* emerald → clay/terracotta accent */
+  --color-emerald-50: #fdf1ea;
+  --color-emerald-100: #f9ddca;
+  --color-emerald-200: #f2b08a;
+  --color-emerald-300: #e78f5f;
+  --color-emerald-400: #dd7039;
+  --color-emerald-500: #c95a23;
+  --color-emerald-600: #b14a1e;
+  --color-emerald-700: #8f3a1b;
+  --color-emerald-800: #6e2d17;
+  --color-emerald-900: #4f2113;
+
+  /* espresso untuk sidebar */
+  --color-espresso-800: #352917;
+  --color-espresso-900: #261d10;
+  --color-espresso-950: #1a1309;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Judul halaman memakai serif editorial */
+h1 {
+  font-family: var(--font-display);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+/* Scrollbar tipis */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d9c4aa;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Receipt 80mm untuk cetak struk */
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+  body {
+    background: #fff;
+  }
+  body * {
+    visibility: hidden;
+  }
+  #receipt,
+  #receipt * {
+    visibility: visible;
+  }
+  #receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+  }
 }
